@@ -1,5 +1,7 @@
 package com.donaton.donaciones.service;
 
+import com.donaton.donaciones.factory.DonacionFactory;
+import com.donaton.donaciones.factory.DonacionTipo;
 import com.donaton.donaciones.model.Donacion;
 import com.donaton.donaciones.repository.DonacionRepository;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,11 @@ public class DonacionService {
     }
 
     public Donacion guardar(Donacion donacion) {
+
+        DonacionTipo tipo = DonacionFactory.crear(donacion.getTipo());
+
+        System.out.println(tipo.procesar());
+
         return repository.save(donacion);
     }
 
