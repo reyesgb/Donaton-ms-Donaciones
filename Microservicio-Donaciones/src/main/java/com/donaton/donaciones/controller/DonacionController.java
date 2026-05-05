@@ -26,4 +26,9 @@ public class DonacionController {
     public List<Donacion> listar() {
         return service.listar();
     }
+
+    @GetMapping("/estado-necesidades")
+    public String estado() {
+        return service.verificarNecesidades();
+    }
 }
