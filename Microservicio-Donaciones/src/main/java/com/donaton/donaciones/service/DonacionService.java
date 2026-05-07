@@ -36,8 +36,16 @@ public class DonacionService {
         return necesidadesClient.obtenerEstadoNecesidades();
     }
 
-    // Método fallback si el servicio falla
+    // Método si el servicio falla
     public String fallbackNecesidades(Exception e) {
         return "Servicio de necesidades no disponible, intentando más tarde";
+    }
+
+    public Donacion obtenerPorId(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public void eliminar(Long id) {
+        repository.deleteById(id);
     }
 }

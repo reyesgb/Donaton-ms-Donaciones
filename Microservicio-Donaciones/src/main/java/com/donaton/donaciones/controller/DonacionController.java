@@ -38,4 +38,14 @@ public class DonacionController {
     public String estado() {
         return service.verificarNecesidades();
     }
+
+    @GetMapping("/{id}")
+    public Donacion obtener(@PathVariable Long id) {
+        return service.obtenerPorId(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        service.eliminar(id);
+    }
 }
