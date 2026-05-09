@@ -33,12 +33,12 @@ public class DonacionService {
     // Verificar necesidades con protección de circuito
     @CircuitBreaker(name = "necesidadesService", fallbackMethod = "fallbackNecesidades")
     public String verificarNecesidades() {
-        return necesidadesClient.obtenerEstadoNecesidades();
+        return necesidadesClient.obtenerNecesidades();
     }
 
     // Método si el servicio falla
     public String fallbackNecesidades(Exception e) {
-        return "Servicio de necesidades no disponible, intentando más tarde";
+        return "No fue posible conectar con el microservicio de necesidades";
     }
 
     public Donacion obtenerPorId(Long id) {

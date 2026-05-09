@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/donaciones")
+@RequestMapping("/donaciones")
 public class DonacionController {
 
     private final DonacionService service;
@@ -47,5 +47,10 @@ public class DonacionController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);
+    }
+
+    @GetMapping("/necesidades")
+    public String obtenerNecesidades() {
+        return service.verificarNecesidades();
     }
 }
