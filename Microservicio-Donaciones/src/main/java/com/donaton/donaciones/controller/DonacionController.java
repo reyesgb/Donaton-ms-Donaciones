@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/donaciones")
+@CrossOrigin(origins = "http://localhost:5174")
 public class DonacionController {
 
     private final DonacionService service;
@@ -22,6 +22,7 @@ public class DonacionController {
     public Donacion crear(@RequestBody DonacionDTO dto) {
 
         Donacion d = new Donacion();
+
         d.setTipo(dto.getTipo());
         d.setCantidad(dto.getCantidad());
         d.setOrigen(dto.getOrigen());
@@ -32,11 +33,6 @@ public class DonacionController {
     @GetMapping
     public List<Donacion> listar() {
         return service.listar();
-    }
-
-    @GetMapping("/estado-necesidades")
-    public String estado() {
-        return service.verificarNecesidades();
     }
 
     @GetMapping("/{id}")
