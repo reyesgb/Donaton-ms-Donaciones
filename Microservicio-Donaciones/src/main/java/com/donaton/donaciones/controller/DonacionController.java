@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/donaciones")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "*")
 public class DonacionController {
 
     private final DonacionService service;
