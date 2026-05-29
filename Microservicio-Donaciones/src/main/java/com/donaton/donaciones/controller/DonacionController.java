@@ -1,7 +1,7 @@
 package com.donaton.donaciones.controller;
 
 import com.donaton.donaciones.dto.DonacionDTO;
-import com.donaton.donaciones.model.Donacion;
+import com.donaton.donaciones.model.*;
 import com.donaton.donaciones.service.DonacionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +21,17 @@ public class DonacionController {
     @PostMapping
     public Donacion crear(@RequestBody DonacionDTO dto) {
 
-        Donacion d = new Donacion();
+        Donacion donacion = new Donacion();
 
-        d.setTipo(dto.getTipo());
-        d.setCantidad(dto.getCantidad());
-        d.setOrigen(dto.getOrigen());
+        donacion.setCategoria(dto.getCategoria());
+        donacion.setCantidad(dto.getCantidad());
+        donacion.setDescripcion(dto.getDescripcion());
+        donacion.setNombreDonante(dto.getNombreDonante());
+        donacion.setDireccionRetiro(dto.getDireccionRetiro());
+        donacion.setComuna(dto.getComuna());
+        donacion.setUsuarioId(dto.getUsuarioId());
 
-        return service.guardar(d);
+        return service.guardar(donacion);
     }
 
     @GetMapping
@@ -35,18 +39,11 @@ public class DonacionController {
         return service.listar();
     }
 
-    @GetMapping("/{id}")
-    public Donacion obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-    }
-
-    @GetMapping("/necesidades")
-    public String obtenerNecesidades() {
-        return service.verificarNecesidades();
+    @PutMapping("/{id}/estado")
+    public Donacion cambiarEstado(
+            @PathVariable Long id,
+            @RequestParam EstadoDonacion estado
+    ) {
+        return service.cambiarEstado(id, estado);
     }
 }

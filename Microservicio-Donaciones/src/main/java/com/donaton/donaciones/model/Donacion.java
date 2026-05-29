@@ -1,12 +1,10 @@
 package com.donaton.donaciones.model;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -14,11 +12,30 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "donaciones")
 public class Donacion {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo;
-    private int cantidad;
-    private String origen;
+    @Enumerated(EnumType.STRING)
+    private CategoriaDonacion categoria;
+
+    private Integer cantidad;
+
+    private String descripcion;
+
+    private String nombreDonante;
+
+    private String direccionRetiro;
+
+    private String comuna;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoDonacion estado;
+
+    private String comentarioRevision;
+
+    private LocalDateTime fechaCreacion;
+
+    private Long usuarioId;
 }

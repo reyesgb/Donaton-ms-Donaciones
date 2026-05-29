@@ -6,14 +6,15 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class NecesidadesClient {
 
+    //RestTemplate arquitectura cliente - servidor
     private final RestTemplate restTemplate;
 
     public NecesidadesClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+    // Método para obtener las necesidades desde el microservicio de necesidades
     public String obtenerNecesidades() {
-
         return restTemplate.getForObject(
                 "http://localhost:8081/necesidades",
                 String.class

@@ -1,52 +1,65 @@
 package com.donaton.donaciones.service;
 
-import com.donaton.donaciones.client.NecesidadesClient;
-
 import com.donaton.donaciones.model.Donacion;
+import com.donaton.donaciones.model.EstadoDonacion;
+import com.donaton.donaciones.model.CategoriaDonacion;
 import com.donaton.donaciones.repository.DonacionRepository;
 import org.springframework.stereotype.Service;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class DonacionService {
 
     private final DonacionRepository repository;
-    private final NecesidadesClient necesidadesClient;
 
-    // Constructor único con inyección de dependencias
-    public DonacionService(DonacionRepository repository, NecesidadesClient necesidadesClient) {
+    public DonacionService(DonacionRepository repository) {
         this.repository = repository;
-        this.necesidadesClient = necesidadesClient;
     }
 
-    // Guardar una donación
     public Donacion guardar(Donacion donacion) {
+
+        donacion.setEstado(EstadoDonacion.PENDIENTE);
+
+        donacion.setFechaCreacion(LocalDateTime.now());
+
         return repository.save(donacion);
     }
 
-    // Listar todas las donaciones
     public List<Donacion> listar() {
         return repository.findAll();
     }
 
-    // Verificar necesidades con protección de circuito
-    @CircuitBreaker(name = "necesidadesService", fallbackMethod = "fallbackNecesidades")
-    public String verificarNecesidades() {
-        return necesidadesClient.obtenerNecesidades();
+    public List<Donacion> obtenerPorUsuario(Long usuarioId) {
+        return repository.findByUsuarioId(usuarioId);
     }
 
-    // Método si el servicio falla
-    public String fallbackNecesidades(Exception e) {
-        return "No fue posible conectar con el microservicio de necesidades";
+    public List<Donacion> filtrarPorEstado(EstadoDonacion estado) {
+        return repository.findByEstado(estado);
     }
 
-    public Donacion obtenerPorId(Long id) {
-        return repository.findById(id).orElse(null);
+    public List<Donacion> filtrarPorCategoria(CategoriaDonacion categoria) {
+        return repository.findByCategoria(categoria);
     }
 
-    public void eliminar(Long id) {
-        repository.deleteById(id);
+    public Donacion actualizarEstado(Long id, EstadoDonacion estado) {
+
+        Donacion donacion = repository.findById(id)
+                .orElseThrow();
+
+        donacion.setEstado(estado);
+
+        return repository.save(donacion);
+    }
+
+    public Donacion cambiarEstado(Long id, EstadoDonacion estado) {
+
+        Donacion donacion = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Donación no encontrada"));
+
+        donacion.setEstado(estado);
+
+        return repository.save(donacion);
     }
 }
