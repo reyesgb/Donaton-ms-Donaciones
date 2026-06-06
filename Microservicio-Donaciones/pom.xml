@@ -98,7 +98,16 @@
             <artifactId>oraclepki</artifactId>
             <version>23.3.0.23.09</version>
         </dependency>
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>

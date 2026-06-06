@@ -39,11 +39,26 @@ public class DonacionController {
         return service.listar();
     }
 
+    @GetMapping("/{id}")
+    public Donacion obtenerPorId(
+            @PathVariable Long id
+    ) {
+        return service.obtenerPorId(id);
+    }
+
     @PutMapping("/{id}/estado")
     public Donacion cambiarEstado(
             @PathVariable Long id,
             @RequestParam EstadoDonacion estado
     ) {
         return service.cambiarEstado(id, estado);
+    }
+
+    @PutMapping("/{id}")
+    public Donacion actualizar(
+            @PathVariable Long id,
+            @RequestBody DonacionDTO dto
+    ) {
+        return service.actualizar(id, dto);
     }
 }

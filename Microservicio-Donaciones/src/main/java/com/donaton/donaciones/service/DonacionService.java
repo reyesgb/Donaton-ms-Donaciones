@@ -1,5 +1,6 @@
 package com.donaton.donaciones.service;
 
+import com.donaton.donaciones.dto.DonacionDTO;
 import com.donaton.donaciones.model.Donacion;
 import com.donaton.donaciones.model.EstadoDonacion;
 import com.donaton.donaciones.model.CategoriaDonacion;
@@ -59,6 +60,34 @@ public class DonacionService {
                 .orElseThrow(() -> new RuntimeException("Donación no encontrada"));
 
         donacion.setEstado(estado);
+
+        return repository.save(donacion);
+    }
+
+    public Donacion obtenerPorId(Long id) {
+
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("Donación no encontrada")
+                );
+    }
+
+    public Donacion actualizar(
+            Long id,
+    DonacionDTO dto
+    ) {
+
+        Donacion donacion =
+                repository.findById(id)
+                        .orElseThrow();
+
+        donacion.setCategoria(dto.getCategoria());
+        donacion.setCantidad(dto.getCantidad());
+        donacion.setDescripcion(dto.getDescripcion());
+        donacion.setNombreDonante(dto.getNombreDonante());
+        donacion.setDireccionRetiro(dto.getDireccionRetiro());
+        donacion.setComuna(dto.getComuna());
+        donacion.setUsuarioId(dto.getUsuarioId());
 
         return repository.save(donacion);
     }
